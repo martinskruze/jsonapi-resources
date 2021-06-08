@@ -889,7 +889,7 @@ module JSONAPI
       end
 
       def _table_name
-        @_table_name ||= _model_class.respond_to?(:table_name) ? _model_class.table_name : _model_name.tableize
+        @_table_name ||= _model_class.respond_to?(:table_name) ? _model_class.quoted_table_name : _model_name.tableize
       end
 
       def _as_parent_key
