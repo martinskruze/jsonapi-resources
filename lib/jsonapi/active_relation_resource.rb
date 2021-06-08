@@ -811,7 +811,7 @@ module JSONAPI
           # :nocov:
         else
           if quoted
-            "#{quote(table)}.#{quote(field)}"
+            "#{table.to_s}.#{quote(field)}"
           else
             # :nocov:
             "#{table.to_s}.#{field.to_s}"
@@ -836,10 +836,10 @@ module JSONAPI
         else
           if quoted
             # :nocov:
-            quote("#{table.to_s}_#{field.to_s}")
+            quote("#{table.to_s.delete('"').underscore}_#{field.to_s}")
             # :nocov:
           else
-            "#{table.to_s}_#{field.to_s}"
+            "#{table.to_s.delete('"').underscore}_#{field.to_s}"
           end
         end
       end
@@ -882,7 +882,7 @@ module JSONAPI
         else
           join_manager = options.dig(:_relation_helper_options, :join_manager)
           field = join_manager ? get_aliased_field(filter, join_manager) : filter
-          records = records.where(Arel.sql(field) => value)
+          records = records.where(Arel.sql(field).eq(value))
         end
 
         records
